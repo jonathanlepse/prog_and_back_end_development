@@ -2,6 +2,8 @@
 # ask the user for an operation to perform
 # perform the operation on the two numbers
 # output the result
+require 'yaml'
+MESSAGES = YAML.load_file('calculator_messages.yml')
 
 def prompt(message)
   Kernel.puts("=> #{message}")
@@ -20,14 +22,14 @@ def operation_to_message(op)
   end
 end
 
-prompt("Welcome to Calculator! Please enter your name:")
+prompt(MESSAGES['welcome'])
 name = gets.chomp
 while name.empty?
-  prompt("You must enter a name to continue.")
+  prompt(MESSAGES['valid_name'])
   name = gets.chomp
 end
   
-prompt("Hi #{name}")
+prompt(MESSAGES['greeting']) # this config file hash does not work correctly b/c you cannot extract string interpolated messages to a config file
   
 again = ""
 while again != "n"
@@ -38,24 +40,24 @@ while again != "n"
   operator = ""
 
   loop do 
-    prompt("Please enter your first number.")
+    prompt(MESSAGES['first_number'])
     number_1 = gets.chomp
     
     if valid_number?(number_1)
       break
     else
-      prompt("You must enter a valid number.")
+      prompt(MESSAGES['valid_number'])
     end
   end
   
   loop do 
-    prompt("Please enter your second number.")
+    prompt(MESSAGES['second_number'])
     number_2 = gets.chomp
     
     if valid_number?(number_2)
       break
     else
-      prompt("You must enter a valid number.")
+      prompt(MESSAGES['valid_number'])
     end
   end
   
@@ -70,7 +72,7 @@ while again != "n"
   prompt(operator_prompt) # calling the heredoc variable
   operator = gets.chomp
   until ("1".."4").include?(operator)
-  prompt("Please enter a number 1-4 that corresspondes with an operation.")
+  prompt(MESSAGES['operation'])
   operator = gets.chomp
   end
   
@@ -85,11 +87,11 @@ while again != "n"
 
 prompt("Here are your results #{name}. \nYour calculation is: ~~ #{result} ~~")
 
-prompt("Would you like to try another calculation? (y/n)")
+prompt(MESSAGES['another_calc'])
 again = gets.chomp
 if again == "y"
-  prompt("Preparing to recalculate...")
+  prompt(MESSAGES['recalculate'])
 else
-  prompt("Good-Bye.")
+  prompt(MESSAGES['good'])
 end
 end
