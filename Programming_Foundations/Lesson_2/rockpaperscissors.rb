@@ -19,8 +19,10 @@ def display_message(choice, computer_choice)
 end
 
 loop do
+  
   choice = ''
   loop do
+    
     prompt("Choose One: #{VALID_CHOICES.join(', ')}")
     choice = gets.chomp
   
@@ -29,6 +31,7 @@ loop do
     else
       prompt("Thats not a valid choice")
     end
+    
   end
   
   computer_choice = VALID_CHOICES.sample
@@ -40,4 +43,5 @@ loop do
   prompt("Do you want to play again? (y/n)")
   answer = gets.chomp
   break unless answer.downcase.start_with?('y')
+  
 end
