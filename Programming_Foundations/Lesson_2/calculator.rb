@@ -35,7 +35,7 @@ again = ""
 while again != "n"
     
   
-  number_1 = ""
+  number_1 = ""  # all 3 of these variables need to be initialized here in outerscope b/c you cannot initialize a variable in loop do...end block
   number_2 = ""
   operator = ""
 
@@ -68,6 +68,7 @@ while again != "n"
   3) multiply 
   4) divide."
   MSG
+  # always have to close your heredoc on its own line
   
   prompt(operator_prompt) # calling the heredoc variable
   operator = gets.chomp
