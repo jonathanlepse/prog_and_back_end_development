@@ -1,7 +1,3 @@
-# ask the user for two numbers
-# ask the user for an operation to perform
-# perform the operation on the two numbers
-# output the result
 require 'yaml'
 MESSAGES = YAML.load_file('calculator_messages.yml')
 
@@ -35,7 +31,7 @@ again = ""
 while again != "n"
     
   
-  number_1 = ""  # all 3 of these variables need to be initialized here in outerscope b/c you cannot initialize a variable in loop do...end block
+  number_1 = "" # all 3 of these variables need to be initialized here in outerscope b/c you cannot initialize a variable in loop do...end block
   number_2 = ""
   operator = ""
 
@@ -77,7 +73,7 @@ while again != "n"
   operator = gets.chomp
   end
   
-  prompt("#{operation_to_message(operator)} the two numbers....")
+    prompt("#{operation_to_message(operator)} the two numbers....")
   
   result = case operator
            when "1" then number_1.to_i + number_2.to_i
@@ -90,9 +86,9 @@ prompt("Here are your results #{name}. \nYour calculation is: ~~ #{result} ~~")
 
 prompt(MESSAGES['another_calc'])
 again = gets.chomp
-if again == "y"
-  prompt(MESSAGES['recalculate'])
-else
-  prompt(MESSAGES['good'])
-end
+  if again == "y"
+    prompt(MESSAGES['recalculate'])
+  else
+    prompt(MESSAGES['good'])
+  end
 end
