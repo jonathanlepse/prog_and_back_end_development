@@ -95,8 +95,10 @@ loop do
   loop do
     display_board(board)
     player_places_piece!(board)
+    display_board(board)
     break if winner?(board) || board_full?(board)
     computer_places_piece!(board)
+    display_board(board)
     break if winner?(board) || board_full?(board)
   end
   
@@ -112,6 +114,5 @@ loop do
   play_again = gets.chomp
   break unless play_again.downcase.start_with?("y")
 end
-
 
 display "Thanks for playing. See you next time."
