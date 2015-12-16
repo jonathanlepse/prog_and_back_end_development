@@ -61,10 +61,6 @@ def board_full?(brd)
   empty_squares(brd).empty?
 end
 
-def winner?(brd)
-  !!detect_winner(brd, winning_line_combinations) # !! will turn this method into a boolean which we need b/c we are asking winner? on line 104 so we need a true or false, a tie will return nil which is not truthy so the if statement below will not execute.
-end
-
 def winning_line_combinations
   winning_lines = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
                   [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
@@ -72,12 +68,12 @@ def winning_line_combinations
   winning_lines
 end
 
-def detect_winner(brd, array)
+def detect_winner(brd, array, name)
   array.each do |line| # this line represents each nested array so when your say brd[line[0]] line[1], line[2] it means the board key for each index in each nested array
     if brd[line[0]] == PLAYER_MARKER &&
        brd[line[1]] == PLAYER_MARKER &&
        brd[line[2]] == PLAYER_MARKER
-      return 'Player' # reason for return here is b/c this method is used in winner method and you need to return player or computer in that method
+      return "#{name}" # reason for return here is b/c this method is used in winner method and you need to return player or computer in that method
     elsif brd[line[0]] == COMPUTER_MARKER &&
           brd[line[1]] == COMPUTER_MARKER &&
           brd[line[2]] == COMPUTER_MARKER
@@ -87,6 +83,13 @@ def detect_winner(brd, array)
   nil # must return nil b/c the loop on line 94 breaks on an or boolean so if nobody wins this method must return false in order to evaluate one side of line 94 to false
 end
 
+def winner?(brd, name)
+  !!detect_winner(brd, winning_line_combinations, name) # !! will turn this method into a boolean which we need b/c we are asking winner? on line 104 so we need a true or false, a tie will return nil which is not truthy so the if statement below will not execute.
+end
+
+display "Please enter your name:"
+player_name = gets.chomp
+
 play_again = ''
 loop do
   board = initialize_board
@@ -95,15 +98,15 @@ loop do
     display_board(board)
     player_places_piece!(board)
     display_board(board)
-    break if winner?(board) || board_full?(board)
+    break if winner?(board, player_name) || board_full?(board)
     computer_places_piece!(board)
     display_board(board)
-    break if winner?(board) || board_full?(board)
+    break if winner?(board, player_name) || board_full?(board)
   end
   
-  if winner?(board)
+  if winner?(board, player_name)
     format
-    display "#{detect_winner(board, winning_line_combinations)} wins!"
+    display "#{detect_winner(board, winning_line_combinations, player_name)} wins!" # even tho this detect_winner method is not using all its parameteres here it still needs them all listed
   else
     display "It's a tie!"
   end
