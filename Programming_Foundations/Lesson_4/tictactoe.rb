@@ -62,7 +62,7 @@ def board_full?(brd)
 end
 
 def winner?(brd)
-  !!detect_winner(brd, winning_line_combinations) # !! will turn this method into a boolean which we need b/c we are asking winner? on line 105 so we need a true or false, a tie will return nil which is not truthy so the if statement below will not execute.
+  !!detect_winner(brd, winning_line_combinations) # !! will turn this method into a boolean which we need b/c we are asking winner? on line 104 so we need a true or false, a tie will return nil which is not truthy so the if statement below will not execute.
 end
 
 def winning_line_combinations
@@ -73,19 +73,18 @@ def winning_line_combinations
 end
 
 def detect_winner(brd, array)
-  #winning_line_combinations
   array.each do |line| # this line represents each nested array so when your say brd[line[0]] line[1], line[2] it means the board key for each index in each nested array
-    if brd[line[0]] == PLAYER_MARKER && 
+    if brd[line[0]] == PLAYER_MARKER &&
        brd[line[1]] == PLAYER_MARKER &&
        brd[line[2]] == PLAYER_MARKER
-       return 'Player' # reason for return here is b/c this method is used in winner method and you need to return player or computer in that method
+      return 'Player' # reason for return here is b/c this method is used in winner method and you need to return player or computer in that method
     elsif brd[line[0]] == COMPUTER_MARKER &&
           brd[line[1]] == COMPUTER_MARKER &&
           brd[line[2]] == COMPUTER_MARKER
-          return 'Computer'
+      return 'Computer'
     end
   end
-  nil # must return nil b/c the loop on line 97 breaks on an or boolean so if nobody wins this method must return false in order to evaluate one side of line 97 to false
+  nil # must return nil b/c the loop on line 94 breaks on an or boolean so if nobody wins this method must return false in order to evaluate one side of line 94 to false
 end
 
 play_again = ''
