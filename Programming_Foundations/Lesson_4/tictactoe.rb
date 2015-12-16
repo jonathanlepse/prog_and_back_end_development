@@ -33,21 +33,21 @@ end
 
 def initialize_board
   new_board = {}
-  (1..9).each { |num| new_board[num] = INITIAL_MARKER}
+  (1..9).each { |num| new_board[num] = INITIAL_MARKER }
   new_board
 end
 
 def empty_squares(brd)
-  brd.keys.select { |num| brd[num] == INITIAL_MARKER} # .keys returns an array, .select here is arrays instance method
+  brd.keys.select { |num| brd[num] == INITIAL_MARKER } # .keys returns an array, .select here is arrays instance method
 end
 
 def player_places_piece!(brd)
   square = ""
   loop do
-    display "Please choose a square: (#{empty_squares(brd).join(",")})" # calling .join on an array, returning a string
+    display "Please choose a square: (#{empty_squares(brd).join(',')})" # calling .join on an array, returning a string
     square = gets.chomp.to_i # remember gets.chomp gets a string so it must be converted to an integer to use as a key from our new_board hash
     break if empty_squares(brd).include?(square) # here you are inside another method so you have to pass in brd instead of board, the new_board hash will get passed in at the start of player_places_piece method
-      display "Please try again, your selection is not currently valid."
+    display "Please try again, your selection is not currently valid."
   end
   brd[square] = PLAYER_MARKER
 end
@@ -62,14 +62,19 @@ def board_full?(brd)
 end
 
 def winner?(brd)
-  !!detect_winner(brd) # !! will turn this method into a boolean which we need b/c we are asking winner? on line 69 so we need a true or false, a tie will return nil which not truthy so the if statement below will not execute.
+  !!detect_winner(brd, winning_line_combinations) # !! will turn this method into a boolean which we need b/c we are asking winner? on line 105 so we need a true or false, a tie will return nil which is not truthy so the if statement below will not execute.
 end
- 
-def detect_winner(brd)
-  winning_lines = [[1,2,3], [4,5,6], [7,8,9]] +
-                  [[1,4,7],[2,5,8], [3,6,9]] +
-                  [[1,5,9], [3,5,7]]
-  winning_lines.each do |line| # this line represents each nested array so when your say brd[line[0]] line[1], line[2] it means for each index in each nested array
+
+def winning_line_combinations
+  winning_lines = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
+                  [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
+                  [[1, 5, 9], [3, 5, 7]]
+  winning_lines
+end
+
+def detect_winner(brd, array)
+  #winning_line_combinations
+  array.each do |line| # this line represents each nested array so when your say brd[line[0]] line[1], line[2] it means the board key for each index in each nested array
     if brd[line[0]] == PLAYER_MARKER && 
        brd[line[1]] == PLAYER_MARKER &&
        brd[line[2]] == PLAYER_MARKER
@@ -80,7 +85,7 @@ def detect_winner(brd)
           return 'Computer'
     end
   end
-  nil # must return nil b/c the loop on line 85 breaks on an or boolean so if nobody wins this method must return false in order to evaluate one side of line 85 to false
+  nil # must return nil b/c the loop on line 97 breaks on an or boolean so if nobody wins this method must return false in order to evaluate one side of line 97 to false
 end
 
 play_again = ''
@@ -97,7 +102,7 @@ loop do
   
   if winner?(board)
     format
-    display "#{detect_winner(board)} wins!"
+    display "#{detect_winner(board, winning_line_combinations)} wins!"
   else
     display "It's a tie!"
   end
