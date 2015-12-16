@@ -73,7 +73,7 @@ def detect_winner(brd, array, name)
     if brd[line[0]] == PLAYER_MARKER &&
        brd[line[1]] == PLAYER_MARKER &&
        brd[line[2]] == PLAYER_MARKER
-      return name 
+      return "#{name}" 
     elsif brd[line[0]] == COMPUTER_MARKER &&
           brd[line[1]] == COMPUTER_MARKER &&
           brd[line[2]] == COMPUTER_MARKER
@@ -83,8 +83,8 @@ def detect_winner(brd, array, name)
   nil 
 end
 
-def winner?(brd)
-  !!detect_winner(brd, winning_line_combinations, player_name) 
+def winner?(brd, name)
+  !!detect_winner(brd, winning_line_combinations, name) 
 end
 
 display "Please enter your name:"
@@ -98,13 +98,13 @@ loop do
     display_board(board)
     player_places_piece!(board)
     display_board(board)
-    break if winner?(board) || board_full?(board)
+    break if winner?(board, player_name) || board_full?(board)
     computer_places_piece!(board)
     display_board(board)
-    break if winner?(board) || board_full?(board)
+    break if winner?(board, player_name) || board_full?(board)
   end
   
-  if winner?(board)
+  if winner?(board, player_name)
     format
     display "#{detect_winner(board, winning_line_combinations, player_name)} wins!"
   else
