@@ -2,6 +2,7 @@ INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
 COMPUTER_MARKER = 'O'
 CHARACTER_LENGTH = 55
+MAXIMUM_WINS = 5
 
 def display(msg)
   puts " => #{msg}"
@@ -85,6 +86,7 @@ end
 display "Please enter your name:"
 player_name = gets.chomp
 
+win_counter = 0
 play_again = ''
 loop do
   board = initialize_board
@@ -101,7 +103,14 @@ loop do
   
   if winner?(board, player_name)
     display_divider
-    display "#{detect_winner(board, winning_line_combinations, player_name)} wins!" # even tho this detect_winner method is not using all its parameteres here it still needs them all listed
+    display "#{detect_winner(board, winning_line_combinations, player_name)} wins!" #this detect_winner method is not using all its params it still needs them all listed
+    if detect_winner(board, winning_line_combinations, player_name) == "#{player_name}" || 'Computer'
+      win_counter+=1
+        if win_counter == MAXIMUM_WINS
+          display "#{detect_winner(board, winning_line_combinations, player_name)} is the first to 5 wins!."
+          break
+        end
+    end
   else
     display "It's a tie!"
   end
