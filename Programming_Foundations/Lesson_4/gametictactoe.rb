@@ -12,7 +12,7 @@ def display(msg)
   puts " => #{msg}"
 end
 
-def format(character = "=")
+def display_divider(character = "=")
   puts character * CHARACTER_LENGTH
 end
 
@@ -20,7 +20,7 @@ def display_board(brd)
   system 'clear'
   puts " Player marker :#{PLAYER_MARKER}"
   puts " Computer marker:#{COMPUTER_MARKER}"
-  format
+  display_divider
   puts " "
   puts "              |             |"
   puts "  #{brd[1]}           | #{brd[2]}           |  #{brd[3]}"
@@ -33,7 +33,7 @@ def display_board(brd)
   puts "              |             |"
   puts "  #{brd[7]}           | #{brd[8]}           |  #{brd[9]}"
   puts "              |             |"
-  format
+  display_divider
 end
 
 def initialize_board
@@ -160,7 +160,7 @@ when "easy"
     end
     
     if winner?(board, player_name)
-      format
+      display_divider
       display "#{detect_winner(board, WINNING_LINES, player_name)} wins!"
         if detect_winner(board, WINNING_LINES, player_name) == "#{player_name}" ||
            detect_winner(board, WINNING_LINES, player_name) == 'Computer'
@@ -175,7 +175,7 @@ when "easy"
     end
     
     display "Would you like to play again? (y/n)"
-    format
+    display_divider
     play_again = gets.chomp
     break unless play_again.downcase.start_with?("y")
   end
@@ -199,7 +199,7 @@ when "medium"
     end
     
     if winner?(board, player_name)
-      format
+      display_divider
       display "#{detect_winner(board, WINNING_LINES, player_name)} wins!"
         if detect_winner(board, WINNING_LINES, player_name) == "#{player_name}" ||
            detect_winner(board, WINNING_LINES, player_name) == 'Computer'
@@ -214,7 +214,7 @@ when "medium"
     end
     
     display "Would you like to play again? (y/n)"
-    format
+    display_divider()
     play_again = gets.chomp
     break unless play_again.downcase.start_with?("y")
   end
@@ -238,7 +238,7 @@ when "hard"
     end
     
     if winner?(board, player_name)
-      format
+      display_divider
       display "#{detect_winner(board, WINNING_LINES, player_name)} wins!"
         if detect_winner(board, WINNING_LINES, player_name) == "#{player_name}" ||
            detect_winner(board, WINNING_LINES, player_name) == 'Computer'
@@ -253,7 +253,7 @@ when "hard"
     end
     
     display "Would you like to play again? (y/n)"
-    format
+    display_divider
     play_again = gets.chomp
     break unless play_again.downcase.start_with?("y")
   end
