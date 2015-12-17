@@ -104,7 +104,8 @@ loop do
   if winner?(board, player_name)
     display_divider
     display "#{detect_winner(board, winning_line_combinations, player_name)} wins!" #this detect_winner method is not using all its params it still needs them all listed
-    if detect_winner(board, winning_line_combinations, player_name) == "#{player_name}" || 'Computer'
+    if detect_winner(board, winning_line_combinations, player_name) == "#{player_name}" ||
+      detect_winner(board, winning_line_combinations, player_name) == 'Computer'
       win_counter+=1
         if win_counter == MAXIMUM_WINS
           display "#{detect_winner(board, winning_line_combinations, player_name)} is the first to 5 wins!."
