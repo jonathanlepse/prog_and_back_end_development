@@ -66,14 +66,14 @@ def find_at_risk_square(line, brd, marker) # line that gets passed into this met
   if brd.values_at(*line).count(marker) == 2
     brd.select{ |k, v| line.include?(k) && v == ' ' }.keys.first
   else
-    nil
+    nil # nil needed here in case if statemet does not execute this method will return nil so loop on line 75 will break, is this nessessary? b/c an empty method will return nil also 
   end
 end
 
 def medium_level_computer_places_piece!(brd)
   square = nil
   WINNING_LINES.each do |line|
-    square = find_at_risk_square(line, brd, PLAYER_MARKER)
+    square = find_at_risk_square(line, brd, PLAYER_MARKER) # if if statement on line 66 does not execute this square variable should return nil anyway b/c empty method returns nil
     break if square
   end
 
