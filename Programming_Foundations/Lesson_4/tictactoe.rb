@@ -7,7 +7,7 @@ def display(msg)
   puts " => #{msg}"
 end
 
-def format(character = "=")
+def display_divider(character = "=")
   puts character * CHARACTER_LENGTH
 end
 
@@ -15,7 +15,7 @@ def display_board(brd)
   system 'clear'
   puts " Player marker :#{PLAYER_MARKER}"
   puts " Computer marker:#{COMPUTER_MARKER}"
-  format
+  display_divider
   puts " "
   puts "              |             |"
   puts "  #{brd[1]}           | #{brd[2]}           |  #{brd[3]}"
@@ -28,7 +28,7 @@ def display_board(brd)
   puts "              |             |"
   puts "  #{brd[7]}           | #{brd[8]}           |  #{brd[9]}"
   puts "              |             |"
-  format
+  display_divider
 end
 
 def initialize_board
@@ -62,29 +62,24 @@ def board_full?(brd)
 end
 
 def winning_line_combinations
-  winning_lines = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
-                  [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
-                  [[1, 5, 9], [3, 5, 7]]
-  winning_lines
+  [
+    [1, 2, 3], [4, 5, 6], [7, 8, 9],
+    [1, 4, 7], [2, 5, 8], [3, 6, 9],
+    [1, 5, 9], [3, 5, 7]
+  ]
+  
 end
 
 def detect_winner(brd, array, name)
-  array.each do |line| # this line represents each nested array so when your say brd[line[0]] line[1], line[2] it means the board key for each index in each nested array
-    if brd[line[0]] == PLAYER_MARKER &&
-       brd[line[1]] == PLAYER_MARKER &&
-       brd[line[2]] == PLAYER_MARKER
-      return "#{name}" # reason for return here is b/c this method is used in winner method and you need to return player or computer in that method
-    elsif brd[line[0]] == COMPUTER_MARKER &&
-          brd[line[1]] == COMPUTER_MARKER &&
-          brd[line[2]] == COMPUTER_MARKER
-      return 'Computer'
-    end
+  array.each do |line|
+    return "#{name}" if line.all? { |position| brd[position] == PLAYER_MARKER } # reason for return here is b/c this method is used in winner method and you need to return 
+    return 'Computer' if line.all? { |position| brd[position] == COMPUTER_MARKER }
   end
-  nil # must return nil b/c the loop on line 94 breaks on an or boolean so if nobody wins this method must return false in order to evaluate one side of line 94 to false
+  nil # must return nil b/c the loop on line 92 breaks on an or boolean so if nobody wins this method must return false in order to evaluate one side of line 92 to false
 end
 
 def winner?(brd, name)
-  !!detect_winner(brd, winning_line_combinations, name) # !! will turn this method into a boolean which we need b/c we are asking winner? on line 104 so we need a true or false, a tie will return nil which is not truthy so the if statement below will not execute.
+  !!detect_winner(brd, winning_line_combinations, name) # !! will turn this method into a boolean which we need b/c we are asking winner? on line 102 so we need a true or false, a tie will return nil which is not truthy so the if statement below will not execute.
 end
 
 display "Please enter your name:"
@@ -105,14 +100,14 @@ loop do
   end
   
   if winner?(board, player_name)
-    format
+    display_divider
     display "#{detect_winner(board, winning_line_combinations, player_name)} wins!" # even tho this detect_winner method is not using all its parameteres here it still needs them all listed
   else
     display "It's a tie!"
   end
   
   display "Would you like to play again? (y/n)"
-  format
+  display_divider
   play_again = gets.chomp
   break unless play_again.downcase.start_with?("y")
 end
