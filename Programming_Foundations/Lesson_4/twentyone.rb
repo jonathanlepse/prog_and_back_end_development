@@ -1,5 +1,7 @@
 SUITS = %w(H D C S)
 VALUES = %W(1 2 3 4 5 6 7 8 9 10 J Q K A)
+BLACKJACK = 21
+DEALER_HIT_MIN = 17
 
 def display(msg)
   puts "=> #{msg}"
@@ -24,22 +26,22 @@ def total(cards)
   end
   
   values.select { |value| value == 'A'}.count.times do 
-    sum-=10 if sum > 21 
+    sum-=10 if sum > BLACKJACK 
   end
   sum
 end
 
 def busted?(cards)
-  total(cards) > 21
+  total(cards) > BLACKJACK
 end
 
 def detect_results(dealer_cards, player_cards)
   player_total = total(player_cards)
   dealer_total = total(dealer_cards)
   
-  if player_total > 21
+  if player_total > BLACKJACK
     display "Player Busted."
-  elsif dealer_total > 21
+  elsif dealer_total > BLACKJACK
     display "Dealer Busted"
   elsif dealer_total < player_total
     display "Congratulations PLayer Won!"
@@ -101,7 +103,7 @@ loop do
   display "Dealer turn..."
 
   loop do
-    break if busted?(dealer_cards) || total(dealer_cards) >= 17
+    break if busted?(dealer_cards) || total(dealer_cards) >= DEALER_HIT_MIN
 
     display "Dealer hits!"
     dealer_cards << deck.pop
