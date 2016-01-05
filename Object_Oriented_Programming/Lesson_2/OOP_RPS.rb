@@ -43,16 +43,6 @@ class Player
   end
 end
 
-class Move
-  def initialize
-  end
-end
-
-class Rule
-  def initialize
-  end
-end
-
 class RPSGame
   attr_accessor :human, :computer
   
