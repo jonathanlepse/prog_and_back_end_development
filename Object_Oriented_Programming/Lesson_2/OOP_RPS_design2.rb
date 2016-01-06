@@ -129,10 +129,10 @@ class RPSGame
   
   def display_winner
     puts "------------------------------------------"
-    puts "#{human.name} chose #{human.move}" # here we are now overriding the built in to_s and using our own to_s written in the move class b/c human.move returns an object and not a value b/c we set it equal to a new object of the Move class
-    puts "#{computer.name} chose #{computer.move}"# here we are now overriding the built in to_s and using our own to_s written in the move class b/c human.move returns an object and not a value b/c we set it equal to a new object of the Move class
+    puts "#{human.name} chose #{human.move}" # here we are now overriding the built in to_s and using our own to_s written in the move class b/c human.move returns an object and not a value b/c we set it equal to a new object of the Move class(line 101)
+    puts "#{computer.name} chose #{computer.move}"# here we are now overriding the built in to_s and using our own to_s written in the move class b/c human.move returns an object and not a value b/c we set it equal to a new object of the Move class(line 111)
 
-    if human.move > computer.move
+    if human.move > computer.move 
       puts "#{human.name} won!"
       @@player_score +=1
       if @@player_score == WINNING_AMOUNT
