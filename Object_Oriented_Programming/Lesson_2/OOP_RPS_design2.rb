@@ -1,3 +1,24 @@
+module Special_Effects
+  def self.display_winning_effects(sentence)
+    e = 0
+    sentence.length.times do 
+      print sentence[e]
+      e +=1
+      sleep (0.25)
+    end
+  end
+  
+  def self.display_losing_effects(sentence)
+    e = 0
+    sentence.length.times do 
+      print sentence[e]
+      e +=1
+      sleep (0.25)
+    end
+  end
+  
+end
+
 class Move
   VALUES = ['rock', 'paper', 'scissors']
   def initialize(value)
@@ -92,6 +113,9 @@ class Computer < Player
 end
 
 class RPSGame
+  WINNING_AMOUNT = 3
+  @@player_score = 0
+  @@computer_score = 0
   attr_accessor :human, :computer
 
   def initialize
@@ -102,7 +126,7 @@ class RPSGame
   def display_welcome_message
     puts "Welcome to Rock,Paper,Scissors #{human.name}!"
   end
-
+  
   def display_winner
     puts "------------------------------------------"
     puts "#{human.name} chose #{human.move}" # here we are now overriding the built in to_s and using our own to_s written in the move class b/c human.move returns an object and not a value b/c we set it equal to a new object of the Move class
@@ -110,8 +134,26 @@ class RPSGame
 
     if human.move > computer.move
       puts "#{human.name} won!"
+      @@player_score +=1
+      if @@player_score == WINNING_AMOUNT
+        puts"Congratulations #{human.name}. You have reached #{WINNING_AMOUNT} points first."
+        sleep(1)
+        Special_Effects.display_winning_effects("You win the game!!!!")
+        display_goodbye_message
+        exit
+      end
+      
     elsif human.move < computer.move
       puts "#{computer.name} won!"
+      @@computer_score +=1
+      if @@computer_score == WINNING_AMOUNT
+        puts "Sorry #{human.name}, #{computer.name} has reached #{WINNING_AMOUNT} points first."
+        sleep(1)
+        Special_Effects.display_losing_effects("You lose the game.")
+        display_goodbye_message
+        exit
+      end
+      
     else
       puts "It's a tie!"
     end
@@ -120,7 +162,7 @@ class RPSGame
   end
 
   def display_goodbye_message
-    puts "Thanks for Playing #{human.name}. Good-Bye."
+    puts " Thanks for Playing #{human.name}. Good-Bye."
   end
 
   def play_again?
