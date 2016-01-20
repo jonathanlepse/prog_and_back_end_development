@@ -8,7 +8,7 @@ class Board
     reset
   end
   
-  def []=(num, marker) #this method is not an override of the hash[]= method b/c our board object is just that an object of Board class, the state of that object(i var) happens to be a hash object. the i var has access to hashs instance methods b/c its a hash object, our board object DOES NOT, it is simply a BOard class object. which is why we are creating this method here to set the values in our i var hash, this method returns the i var and allows us to set the key, value pairs, we can then call our board object on this []= method.
+  def []=(num, marker) #this method is not an override of the hash[]= method b/c our board object is just that an object of Board class, the state of that object(i var) happens to be a hash object. the i var has access to hashs instance methods b/c its a hash object, our board object DOES NOT, it is simply a Board class object. which is why we are creating this method here to set the values in our i var hash, this method returns the i var and allows us to set the key-value pairs, we can then call our board object on this []= method and since we are not inheriting from Hash class here, the board class and ultimately the board obejct does not have access to hash's instance method, but we can create a custom []= for this Board class like so and there is no conflict with Hash []= method b/c the two never meet in inheritance b/c Board class is not inheriting from Hash class only Object/Kernel/BasicObject.
     @squares[num].marker = marker
   end
   
