@@ -12,8 +12,8 @@ class Board
     @squares[key]
   end
   
-  def set_square_at(key, marker)
-    @squares[key].marker = marker
+  def set_square_at(key, mark)
+    @squares[key].marker = mark # calling @squares[key] object here so you can call the getter method for marker
   end
   
   def unmarked_keys
@@ -33,7 +33,7 @@ class Board
   end
   
   def count_computer_marker(squares)
-    squares.collect(&:marker).count(TTTGame::COMPUTER_MARKER)
+    squares.collect(&:marker).count(TTTGame::COMPUTER_MARKER) # not representing the squares getter method here, there is no squares getter method.
   end
   
   def detect_winner
@@ -97,8 +97,8 @@ class TTTGame
     puts "Thanks for playing TicTacToe. GoodBye."
   end
   
-  def display_board(clear = true) # this means each time system clear will execute unless we pass in flase to display board somewhere else
-    system 'clear' if clear
+  def display_board(options = {clear_screen: true}) # this means each time system clear will execute unless we pass in false to display board somewhere else
+    clear if options[:clear_screen]
     puts "Human squares are: #{human.marker}"
     puts "Computer squares are: #{computer.marker}"
     puts "--------------------------"
@@ -116,7 +116,7 @@ class TTTGame
     puts "     |     |     "
     puts " "
   end
-  
+
   def human_moves
     puts "Choose a square #{board.unmarked_keys.join(",")}:"
     square = nil
@@ -155,10 +155,14 @@ class TTTGame
     answer == 'y'
   end
   
+  def clear
+    system 'clear'
+  end
+  
   def play 
     display_welcome_message
     loop do
-      display_board(false) # flase gets passed in system clear will not execute.
+      display_board(clear_screen: false) # clear_screen is key, false is value. flase gets passed in so system clear will not execute. curly braces are not nessessary here b/c the hash is the last argument passed in so we can omit the curly braces if we want.
       loop do
         display_board
         human_moves
@@ -171,7 +175,7 @@ class TTTGame
       break unless play_again?
       puts "Lets play again."
       board.reset
-      system 'clear'
+      clear
       puts "Lets play again."
       puts " "
     end
