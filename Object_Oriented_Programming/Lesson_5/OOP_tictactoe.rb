@@ -25,7 +25,7 @@ class Board
   end
   
   def someone_won?
-    !!detect_winner # this is going to return the boolean value of detect winner which we need for this method
+    !!winning_marker # this is going to return the boolean value of detect winner which we need for this method
   end
   
   def count_human_marker(squares)
@@ -36,7 +36,7 @@ class Board
     squares.collect(&:marker).count(TTTGame::COMPUTER_MARKER) # not representing the squares getter method here, there is no squares getter method.
   end
   
-  def detect_winner
+  def winning_marker
     WINNING_LINES.each do |line|
       if count_human_marker(@squares.values_at(*line)) == 3 # the splat operator here gives line[0] line[1] line[2] here when we pass in line.
         return TTTGame::HUMAN_MARKER
@@ -138,7 +138,7 @@ class TTTGame
   
   def display_result
     clear_screen_and_display_board
-    case board.detect_winner
+    case board.winning_marker
     when human.marker  
       puts "You won!"
     when computer.marker 
