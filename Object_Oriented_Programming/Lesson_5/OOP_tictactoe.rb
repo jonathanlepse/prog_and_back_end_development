@@ -97,8 +97,7 @@ class TTTGame
     puts "Thanks for playing TicTacToe. GoodBye."
   end
   
-  def display_board(options = {clear_screen: true}) # this means each time system clear will execute unless we pass in false to display board somewhere else
-    clear if options[:clear_screen]
+  def display_board
     puts "Human squares are: #{human.marker}"
     puts "Computer squares are: #{computer.marker}"
     puts "--------------------------"
@@ -115,6 +114,11 @@ class TTTGame
     puts "  #{board.get_squares_at(7)}  |  #{board.get_squares_at(8)}  |  #{board.get_squares_at(9)}  "
     puts "     |     |     "
     puts " "
+  end
+  
+  def clear_screen_and_display_board
+    clear
+    display_board
   end
 
   def human_moves
@@ -133,7 +137,7 @@ class TTTGame
   end
   
   def display_result
-    display_board
+    clear_screen_and_display_board
     case board.detect_winner
     when human.marker  
       puts "You won!"
@@ -162,14 +166,14 @@ class TTTGame
   def play 
     display_welcome_message
     loop do
-      display_board(clear_screen: false) # clear_screen is key, false is value. flase gets passed in so system clear will not execute. curly braces are not nessessary here b/c the hash is the last argument passed in so we can omit the curly braces if we want.
+      display_board
       loop do
-        display_board
+        clear_screen_and_display_board
         human_moves
         break if board.someone_won? || board.full?
         computer_moves
         break if board.someone_won? || board.full?
-        display_board
+        clear_screen_and_display_board
       end
       display_result
       break unless play_again?
