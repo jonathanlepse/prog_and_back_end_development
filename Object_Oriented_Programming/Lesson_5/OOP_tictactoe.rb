@@ -8,12 +8,8 @@ class Board
     reset
   end
   
-  def get_squares_at(key)
-    @squares[key]
-  end
-  
-  def set_square_at(key, mark)
-    @squares[key].marker = mark # calling @squares[key] object here so you can call the getter method for marker
+  def []=(num, marker) # collection setter method, this is a fake operator so we have to create our own to override the default behavior with behavior we want to exhibit. since a board object will return a hash we are calling the hash setter method here but overriding it with out own b/c we need to pass in parameters to make it work prpoperly since we cant hard code it like hash setter methods wants uo to do
+    @squares[num].marker = marker
   end
   
   def unmarked_keys
@@ -51,17 +47,17 @@ class Board
     (1..9).each { |key| @squares[key] = Square.new}
   end
   
-  def draw # drawing the board is a board responsibily and belongs here, now we can call it anywhere we need to below, b/c we've abstarcted it away to the board class.
+  def draw # drawing the board is a board responsibily and belongs here, now we can call it anywhere we need to below, b/c we've abstarcted it away to the board class. we also no longer need the Board#get_squares_at method b/c that only returned the @squares[key], which we can now call directly b/c @squares is avail. to the draw method b/c there in the same class
     puts "     |     |     "
-    puts "  #{board.get_squares_at(1)}  |  #{board.get_squares_at(2)}  |  #{board.get_squares_at(3)}  "
-    puts "     |     |     "
-    puts "-----+-----+-----"
-    puts "     |     |     "
-    puts "  #{board.get_squares_at(4)}  |  #{board.get_squares_at(5)}  |  #{board.get_squares_at(6)}  "
+    puts "  #{@squares[1]}  |  #{@squares[2]}  |  #{@squares[3]}  "
     puts "     |     |     "
     puts "-----+-----+-----"
     puts "     |     |     "
-    puts "  #{board.get_squares_at(7)}  |  #{board.get_squares_at(8)}  |  #{board.get_squares_at(9)}  "
+    puts "  #{@squares[4]}  |  #{@squares[5]}  |  #{@squares[6]}  "
+    puts "     |     |     "
+    puts "-----+-----+-----"
+    puts "     |     |     "
+    puts "  #{@squares[7]}  |  #{@squares[8]}  |  #{@squares[9]}  "
     puts "     |     |     "
   end
 end
@@ -133,11 +129,11 @@ class TTTGame
       break if board.unmarked_keys.include?(square)
       puts "Sorry that is not a valid choice."
     end
-    board.set_square_at(square, human.marker)
+    board.[]=(square, human.marker)
   end
   
   def computer_moves
-    board.set_square_at(board.unmarked_keys.sample, computer.marker)
+    board.[]=(board.unmarked_keys.sample, computer.marker)
   end
   
   def display_result
