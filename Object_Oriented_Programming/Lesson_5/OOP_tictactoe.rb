@@ -50,6 +50,20 @@ class Board
   def reset
     (1..9).each { |key| @squares[key] = Square.new}
   end
+  
+  def draw # drawing the board is a board responsibily and belongs here, now we can call it anywhere we need to below, b/c we've abstarcted it away to the board class.
+    puts "     |     |     "
+    puts "  #{board.get_squares_at(1)}  |  #{board.get_squares_at(2)}  |  #{board.get_squares_at(3)}  "
+    puts "     |     |     "
+    puts "-----+-----+-----"
+    puts "     |     |     "
+    puts "  #{board.get_squares_at(4)}  |  #{board.get_squares_at(5)}  |  #{board.get_squares_at(6)}  "
+    puts "     |     |     "
+    puts "-----+-----+-----"
+    puts "     |     |     "
+    puts "  #{board.get_squares_at(7)}  |  #{board.get_squares_at(8)}  |  #{board.get_squares_at(9)}  "
+    puts "     |     |     "
+  end
 end
 
 class Square
@@ -102,17 +116,7 @@ class TTTGame
     puts "Computer squares are: #{computer.marker}"
     puts "--------------------------"
     puts " "
-    puts "     |     |     "
-    puts "  #{board.get_squares_at(1)}  |  #{board.get_squares_at(2)}  |  #{board.get_squares_at(3)}  "
-    puts "     |     |     "
-    puts "-----+-----+-----"
-    puts "     |     |     "
-    puts "  #{board.get_squares_at(4)}  |  #{board.get_squares_at(5)}  |  #{board.get_squares_at(6)}  "
-    puts "     |     |     "
-    puts "-----+-----+-----"
-    puts "     |     |     "
-    puts "  #{board.get_squares_at(7)}  |  #{board.get_squares_at(8)}  |  #{board.get_squares_at(9)}  "
-    puts "     |     |     "
+    board.draw
     puts " "
   end
   
