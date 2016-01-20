@@ -8,7 +8,7 @@ class Board
     reset
   end
   
-  def []=(num, marker) # collection setter method, this is a fake operator so we have to create our own to override the default behavior with behavior we want to exhibit. since a board object will return a hash we are calling the hash setter method here but overriding it with out own b/c we need to pass in parameters to make it work prpoperly since we cant hard code it like hash setter methods wants uo to do
+  def []=(num, marker) #this method is not an override of the hash[]= method b/c our board object is just that an object of Board class, the state of that object(i var) happens to be a hash object. the i var has access to hashs instance methods b/c its a hash object, our board object DOES NOT, it is simply a BOard class object. which is why we are creating this method here to set the values in our i var hash, this method returns the i var and allows us to set the key, value pairs, we can then call our board object on this []= method.
     @squares[num].marker = marker
   end
   
