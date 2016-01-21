@@ -3,7 +3,8 @@ class Board
   WINNING_LINES = [ [1,2,3], [4,5,6], [7,8,9],
                     [1,4,7], [2,5,8], [3,6,9],
                     [1,5,9], [3,5,7],
-                  ]  
+                  ]
+  WINNING_ROW_LENGTH = 3                
   def initialize
     @squares = {}
     reset
@@ -28,7 +29,7 @@ class Board
   def winning_marker
     WINNING_LINES.each do |line|
       squares = @squares.values_at(*line)
-      if three_identical_markers?(squares)
+      if row_of_identical_markers?(squares)
         return squares.first.marker
       end
     end
@@ -56,9 +57,9 @@ class Board
   
   private
     
-  def three_identical_markers?(squares)
+  def row_of_identical_markers?(squares)
     markers = squares.select(&:marked?).collect(&:marker)
-    return false if markers.size != 3
+    return false if markers.size != WINNING_ROW_LENGTH
     markers.min == markers.max
   end
 end
