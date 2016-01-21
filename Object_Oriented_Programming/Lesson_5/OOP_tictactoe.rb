@@ -94,6 +94,9 @@ class Player
 end
 
 class TTTGame
+  WINNING_AMOUNT = 3
+  @@player_score = 0
+  @@computer_score = 0
   HUMAN_MARKER = 'X'
   COMPUTER_MARKER = 'O'
   FIRST_TO_MOVE = HUMAN_MARKER # this allows us to changes who goes first if we choose to change game play
@@ -178,10 +181,26 @@ class TTTGame
     case board.winning_marker
     when human.marker
       puts "You won!"
+      @@player_score +=1
+      display_winning_message
     when computer.marker
       puts "Computer won."
+      @@computer_score +=1
+      display_winning_message
     else
       puts "The board is full."
+    end
+  end
+
+  def display_winning_message
+    if @@player_score == WINNING_AMOUNT
+      puts "Congratulations You've won #{WINNING_AMOUNT} times. That's enough."
+      display_goodbye_message
+      exit
+    elsif @@computer_score == WINNING_AMOUNT
+      puts "Unfortunately computer has won #{WINNING_AMOUNT} times. You canot play anymore."
+      display_goodbye_message
+      exit
     end
   end
 
