@@ -23,7 +23,6 @@ class Board
   def someone_won?
     !!winning_marker # this is going to return the boolean value of detect winner which we need for this method
   end
-
   
   def winning_marker
     WINNING_LINES.each do |line|
@@ -95,14 +94,34 @@ end
 class TTTGame
   HUMAN_MARKER = 'X'
   COMPUTER_MARKER = 'O'
+  FIRST_TO_MOVE = HUMAN_MARKER # this allows us to changes who goes first if we want to change game play
   attr_reader :board, :human, :computer
   
   def initialize
     @board = Board.new
     @human = Player.new(HUMAN_MARKER)
     @computer = Player.new(COMPUTER_MARKER)
+    @current_marker = FIRST_TO_MOVE 
+  end
+
+  def play 
+    display_welcome_message
+    loop do
+      display_board
+      loop do
+        current_player_moves
+        break if board.someone_won? || board.full?
+        clear_screen_and_display_board
+      end
+      display_result
+      break unless play_again?
+      reset
+      play_again_message
+    end
+    display_goodbye_message
   end
   
+  private
   def display_welcome_message
     puts "Welcome to TicTacToe!"
     puts ""
@@ -120,7 +139,17 @@ class TTTGame
     board.draw
     puts " "
   end
-  
+
+  def current_player_moves
+    if @current_marker == HUMAN_MARKER
+      human_moves
+      @current_marker = COMPUTER_MARKER
+    else
+      computer_moves
+      @current_marker = HUMAN_MARKER
+    end
+  end
+
   def clear_screen_and_display_board
     clear
     display_board
@@ -170,6 +199,7 @@ class TTTGame
   
   def reset
     board.reset
+    @current_marker = FIRST_TO_MOVE # this resets back to player turn if you play again
     clear
     puts "Lets play again."
     puts " "
@@ -178,25 +208,6 @@ class TTTGame
   def play_again_message
     puts "Lets play again."
     puts " "
-  end
-  
-  def play 
-    display_welcome_message
-    loop do
-      display_board
-      loop do
-        human_moves
-        break if board.someone_won? || board.full?
-        computer_moves
-        break if board.someone_won? || board.full?
-        clear_screen_and_display_board
-      end
-      display_result
-      break unless play_again?
-      reset
-      play_again_message
-    end
-    display_goodbye_message
   end
 end
 
