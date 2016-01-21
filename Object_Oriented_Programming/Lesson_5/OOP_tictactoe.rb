@@ -1,3 +1,4 @@
+#notice this final code is updated to be designed properly for OOP. each class handles its own generic state, the board class handle only the state of the board with generic references, its not tied into hardcoded markers, thats left to the game class state to track
 class Board
   WINNING_LINES = [ [1,2,3], [4,5,6], [7,8,9],
                     [1,4,7], [2,5,8], [3,6,9],
@@ -74,7 +75,8 @@ class Square
     @marker # again just like RPS game calling string interpolation on a square object returns object id so we need to override to_s in the objects class and call the instance variable here
   end
   
-  def unmarked?
+  # unmarked and marked are square responsibilities
+  def unmarked? 
     marker == INITIAL_MARKER
   end
   
@@ -87,14 +89,14 @@ class Player
   attr_reader :marker
   
   def initialize(marker)
-    @marker = marker
+    @marker = marker # both square and player get a marker b/c they both share that responsibility, square marks a square blank and a player marks a square with x or o
   end
 end
 
 class TTTGame
   HUMAN_MARKER = 'X'
   COMPUTER_MARKER = 'O'
-  FIRST_TO_MOVE = HUMAN_MARKER # this allows us to changes who goes first if we want to change game play
+  FIRST_TO_MOVE = HUMAN_MARKER # this allows us to changes who goes first if we choose to change game play
   attr_reader :board, :human, :computer
   
   def initialize
@@ -122,6 +124,7 @@ class TTTGame
   end
   
   private
+  
   def display_welcome_message
     puts "Welcome to TicTacToe!"
     puts ""
@@ -166,7 +169,7 @@ class TTTGame
     board.[]=(square, human.marker)
   end
   
-  def computer_moves
+  def computer_moves # we could put inside this method offense and defense is nessessary. its a game responsibility, computer move behavior
     board.[]=(board.unmarked_keys.sample, computer.marker)
   end
   
@@ -201,8 +204,6 @@ class TTTGame
     board.reset
     @current_marker = FIRST_TO_MOVE # this resets back to player turn if you play again
     clear
-    puts "Lets play again."
-    puts " "
   end
   
   def play_again_message
