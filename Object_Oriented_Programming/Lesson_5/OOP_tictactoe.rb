@@ -110,7 +110,7 @@ class TTTGame
     @current_marker = FIRST_TO_MOVE
   end
 
-  def ask_name # name represents the state of a player object so name is a player i var, but the responsibility for asking for the name is a TTTGame class responsibility
+  def ask_name # name represents the state of a player object so name is a player i var, but the responsibility for asking for the name is a TTTGame class responsibility.
     name = nil
     loop do
       puts "what is your name?"
@@ -189,10 +189,10 @@ class TTTGame
     board.[]=(square, human.marker)
   end
 
-  def computer_moves # we could put inside this method offense and defense is nessessary. its a game responsibility, computer move behavior
+  def computer_moves
     board.[]=(board.unmarked_keys.sample, computer.marker)
-  end
-
+  end # we could put inside this method offense and defense is nessessary. its a game responsibility, computer move behavior
+  
   def display_result
     clear_screen_and_display_board
     case board.winning_marker
