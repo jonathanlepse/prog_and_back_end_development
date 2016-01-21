@@ -86,10 +86,11 @@ class Square
 end
 
 class Player
-  attr_reader :marker
+  attr_reader :marker, :name
 
-  def initialize(marker)
+  def initialize(marker, name)
     @marker = marker # both square and player get a marker b/c they both share that responsibility, square marks a square blank and a player marks a square with x or o
+    @name = name
   end
 end
 
@@ -104,9 +105,25 @@ class TTTGame
 
   def initialize
     @board = Board.new
-    @human = Player.new(HUMAN_MARKER)
-    @computer = Player.new(COMPUTER_MARKER)
+    @human = Player.new(HUMAN_MARKER, ask_name)
+    @computer = Player.new(COMPUTER_MARKER, computer_name)
     @current_marker = FIRST_TO_MOVE
+  end
+
+  def ask_name # name represents the state of a player object so name is a player i var, but the responsibility for asking for the name is a TTTGame class responsibility
+    name = nil
+    loop do
+      puts "what is your name?"
+      name = gets.chomp
+      break unless name.empty?
+      puts "You must enter a name."
+    end
+    name
+  end
+  
+  def computer_name
+    name = %w(Megatron Cyclopse, Gigantor, Rex the RodeoClown)
+    name.sample
   end
 
   def play
@@ -180,11 +197,11 @@ class TTTGame
     clear_screen_and_display_board
     case board.winning_marker
     when human.marker
-      puts "You won!"
+      puts "#{human.name} won!"
       @@player_score +=1
       display_winning_message
     when computer.marker
-      puts "Computer won."
+      puts "#{computer.name} won."
       @@computer_score +=1
       display_winning_message
     else
@@ -194,11 +211,11 @@ class TTTGame
 
   def display_winning_message
     if @@player_score == WINNING_AMOUNT
-      puts "Congratulations You've won #{WINNING_AMOUNT} times. That's enough."
+      puts "Congratulations #{human.name} You've won #{WINNING_AMOUNT} times. That's enough."
       display_goodbye_message
       exit
     elsif @@computer_score == WINNING_AMOUNT
-      puts "Unfortunately computer has won #{WINNING_AMOUNT} times. You canot play anymore."
+      puts "Unfortunately #{computer.name} has won #{WINNING_AMOUNT} times. You canot play anymore."
       display_goodbye_message
       exit
     end
